@@ -19,6 +19,7 @@ class DashboardController extends Controller
             'sup' => $sup,
             'krit' => $krit
         ];
+    
         return view('dashboard.index',compact('data'));
     }
 }

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 class CalculateController extends Controller
 {
     public function index(){
+        
         $krit = Kriteria::orderby('kode',"ASC")->get();
         $bobot = KriteriaBobot::get();
         $bobot->map(function($x){
@@ -55,52 +56,7 @@ class CalculateController extends Controller
             'kriteria' => $krit,
             'bobot' => $bobot
         ];
-       
-        $totals = [];
-        $total_row = [];
-        if($bobot){
-            foreach ($krit as $kriteria) {
-                $total = 0; // Inisialisasi total untuk setiap kode
-                $total_r = 0;
-                // Menghitung total bobot terkait
-                foreach ($bobot as $items) {
-                    if($kriteria['kode'] != $items){
-
-                    }
-                    if ($kriteria['kode'] == $items['rel_2']['kode'] && $kriteria['kode'] != $items['rel_1']['kode']) {
-                        $total += $items['nilai'] / $kriteria['total_nilai']; // Tambahkan nilai bobot
-                        
-                    }
-                   
-                    if ($kriteria['kode'] != $items['rel_2']['kode'] && $kriteria['kode'] == $items['rel_1']['kode']) {
-                        $total += 1 / $items['nilai'] / $kriteria['total_nilai']; // Tambahkan nilai kebalikan
-                       
-                    }
-                    
-                }
-        
-                // Tambahkan nilai 1 pada diagonal utama
-                foreach ($krit as $kriteriaDiagonal) {
-                    if ($kriteria['kode'] == $kriteriaDiagonal['kode']) {
-                        $total += 1 / $kriteria['total_nilai']; // Tambahkan nilai 1 pada diagonal utama
-                        
-                    }
-                }
-        
-                $cc = [
-                    'kode' => $kriteria['kode'],
-                    'nilai' => $total
-                ];
-                array_push($totals, $cc);
-
-                $cc_r = [
-                    'kode' => $kriteria['kode'],
-                    'nilai' => $total_r
-                ];
-                array_push($total_row, $cc_r);
-            }
-        }
-        // return $total_row;
+    //    return $bobot;
 
 
 
@@ -113,7 +69,6 @@ class CalculateController extends Controller
 
     public function hitung(Request $request){
     
-        
         $validator = Validator::make($request->all(), [
             // 'kode' => 'required',
             // 'nama' => 'required'
@@ -138,7 +93,7 @@ class CalculateController extends Controller
                     array_push($data,$k);
             }
 
-           
+          
             foreach($data as $value){
                 KriteriaBobot::create([
                     'kriteria_id' => $value['kriteria_1'],
