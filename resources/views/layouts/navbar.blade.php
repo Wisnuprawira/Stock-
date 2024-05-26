@@ -35,7 +35,6 @@
         <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="" class="ico-img">
         <ul class="sub-ico-item">
             <li><a href="{{route('user.index')}}">User</a></li>
-            {{-- <li><a href="#">Blog</a></li> --}}
             <li><a class="" href="{{route('logout')}}">Log Out</a></li>
         </ul>
         <!-- /.sub-ico-item -->

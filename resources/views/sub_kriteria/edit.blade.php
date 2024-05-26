@@ -3,7 +3,7 @@
     <div class="row small-spacing">
         <div class="col-lg-6 col-xs-12">
             <div class="box-content card white">
-                <h4 class="box-title">Tambah Sub Kriteria</h4>
+                <h4 class="box-title">Edit Sub Kriteria</h4>
                 <!-- /.box-title -->
                 <div class="card-content">
                     <form action="{{ route('sub.kriteria.edit',$data['data']['id']) }}" method="post">

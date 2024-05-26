@@ -34,7 +34,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/hapus-kriteria/{id}', [App\Http\Controllers\KriteriaController::class, 'delete'])->name('kriteria.delete'); 
     });
     
-    Route::group(['prefix' => 'sub-kriteria'], function () {
+    Route::group(['prefix' => 'kriteria-sub'], function () {
         Route::get('/', [App\Http\Controllers\SubKriteriaController::class, 'index'])->name('sub.kriteria.index');
         
         Route::get('/create-sub-kriteria', [App\Http\Controllers\SubKriteriaController::class, 'createPages'])->name('sub.kriteria.createPages');
@@ -68,18 +68,17 @@ Route::middleware(['auth'])->group(function () {
     
             Route::get('/hapus/{id}', [App\Http\Controllers\AlternatifController::class, 'delete'])->name('alternatif.delete'); 
         });
-    
-        Route::group(['prefix' => 'user'], function () {
-            Route::get('/', [App\Http\Controllers\AuthController::class, 'getUser'])->name('user.index');
-            Route::get('/create-user', [App\Http\Controllers\AuthController::class, 'createPages'])->name('user.createPages');
-            Route::post('/create-user', [App\Http\Controllers\AuthController::class, 'create'])->name('user.create');
-    
-            Route::get('/edit-user/{id}', [App\Http\Controllers\AuthController::class, 'editPages'])->name('user.editPages');
-            Route::post('/edit-user/{id}', [App\Http\Controllers\AuthController::class, 'edit'])->name('user.edit');
-    
-            Route::get('/hapus-user/{id}', [App\Http\Controllers\AuthController::class, 'delete'])->name('user.delete'); 
-        });
-        
         
     });  
+
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('/', [App\Http\Controllers\AuthController::class, 'getUser'])->name('user.index');
+        Route::get('/create-user', [App\Http\Controllers\AuthController::class, 'createPages'])->name('user.createPages');
+        Route::post('/create-user', [App\Http\Controllers\AuthController::class, 'create'])->name('user.create');
+
+        Route::get('/edit-user/{id}', [App\Http\Controllers\AuthController::class, 'editPages'])->name('user.editPages');
+        Route::post('/edit-user/{id}', [App\Http\Controllers\AuthController::class, 'edit'])->name('user.edit');
+
+        Route::get('/hapus-user/{id}', [App\Http\Controllers\AuthController::class, 'delete'])->name('user.delete'); 
+    });
 });
