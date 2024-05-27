@@ -9,6 +9,7 @@ use App\Models\KriteriaBobot;
 use App\Models\SubKriteria;
 use App\Models\SubKriteriaBobot;
 use Illuminate\Support\Facades\Validator;
+use DB;
 
 class CalculateController extends Controller
 {
@@ -22,11 +23,16 @@ class CalculateController extends Controller
             $x->kodes = $x['kriteria_id'].'_'.$x['kriteria_id2'].'_'.$x['nilai'];
             return $x;
         });
+
         $data = [
             'title' => "Perhitungan",
             'kriteria' => $krit,
             'bobot' => $bobot
         ];
+       
+
+
+        
 
         return view('hitung.index',compact('data'));
     }
@@ -97,51 +103,148 @@ class CalculateController extends Controller
                 ]);
             }
 
-            // $krit = Kriteria::orderby('kode',"ASC")->get();
-            // $bobot = KriteriaBobot::get();
-            // $bobot->map(function($x){
-            //     $x['rel_1'] = Kriteria::where('kode',$x['kriteria_id'])->first();
-            //     $x['rel_2'] = Kriteria::where('kode',$x['kriteria_id2'])->first();
-            //     $x->kodes = $x['kriteria_id'].'_'.$x['kriteria_id2'].'_'.$x['nilai'];
-            //     return $x;
-            // });
-            // $totals = [];
-            // if($bobot){
-            //     foreach ($krit as $kriteria) {
-            //         $total = 0; // Inisialisasi total untuk setiap kode
-            
-            //         // Menghitung total bobot terkait
-            //         foreach ($bobot as $items) {
-            //             if ($kriteria['kode'] == $items['rel_2']['kode'] && $kriteria['kode'] != $items['rel_1']['kode']) {
-            //                 $total += $items['nilai']; // Tambahkan nilai bobot
-            //             }
-            //             if ($kriteria['kode'] != $items['rel_2']['kode'] && $kriteria['kode'] == $items['rel_1']['kode']) {
-            //                 $total += 1 / $items['nilai']; // Tambahkan nilai kebalikan
-            //             }
-            //         }
-            
-            //         // Tambahkan nilai 1 pada diagonal utama
-            //         foreach ($krit as $kriteriaDiagonal) {
-            //             if ($kriteria['kode'] == $kriteriaDiagonal['kode']) {
-            //                 $total += 1; // Tambahkan nilai 1 pada diagonal utama
-            //             }
-            //         }
-            
-            //         $cc = [
-            //             'kode' => $kriteria['kode'],
-            //             'nilai' => $total
-            //         ];
-            //         array_push($totals, $cc);
-            //     }
-            // }
+            $data_ri = [
+                '1' => 0.0,
+                '2' => 0.0,
+                '3' => 0.58,
+                '4' => 0.9,
+                '5' => 1.12,
+                '6' => 1.24,
+                '7' => 1.32,
+                '8' => 1.41,
+                '9' => 1.45,
+                '10' => 1.49,
+            ];
 
-            // foreach($totals as $tot){
-            //     Kriteria::where('kode',$tot['kode'])->update([
-            //         'total_nilai' => $tot['nilai']
-            //     ]);
-            // }
+            $krit = Kriteria::orderby('kode',"ASC")->get();
+            $bobot = KriteriaBobot::get();
+            $bobot->map(function($x){
+                $x['rel_1'] = Kriteria::where('kode',$x['kriteria_id'])->first();
+                $x['rel_2'] = Kriteria::where('kode',$x['kriteria_id2'])->first();
+                $x->kodes = $x['kriteria_id'].'_'.$x['kriteria_id2'].'_'.$x['nilai'];
+                return $x;
+            });
 
+            $data = [
+                'title' => "Perhitungan",
+                'kriteria' => $krit,
+                'bobot' => $bobot
+            ];
 
+            $data_ri = [
+                '1' => 0.0,
+                '2' => 0.0,
+                '3' => 0.58,
+                '4' => 0.9,
+                '5' => 1.12,
+                '6' => 1.24,
+                '7' => 1.32,
+                '8' => 1.41,
+                '9' => 1.45,
+                '10' => 1.49,
+            ];
+    
+            $count = count($data['kriteria']);
+            $nilai_ri = $data_ri[$count];
+    
+            $totalJumlah = 0;
+            $totalPrioritas = 0;
+            $totalEigen = 0;
+    
+                $totalNilai = [];
+                $array_totalNilai = [];
+                foreach ($data['kriteria'] as $kriteria1) {
+                    $totalNilai[$kriteria1['kode']] = 0;
+                    foreach ($data['kriteria'] as $kriteria2) {
+                        foreach ($data['bobot'] as $b) {
+                            if (
+                                $kriteria2['kode'] . $kriteria1['kode'] ==
+                                    $b['kriteria_id'] . $b['kriteria_id2'] ||
+                                $kriteria1['kode'] . $kriteria2['kode'] ==
+                                    $b['kriteria_id2'] . $b['kriteria_id']
+                            ) {
+                                $totalNilai[$kriteria1['kode']] += $b['nilai'];
+                                
+                            }
+                        }
+                    }
+                    
+                    $kk = [
+                        'kode' => $kriteria1['kode'],
+                        'nilai' => $totalNilai[$kriteria1['kode']]
+                    ];
+                    array_push($array_totalNilai,$kk);
+                    Kriteria::where('kode',$kriteria1['kode'])->update([
+                        'total_nilai' => $totalNilai[$kriteria1['kode']]
+                    ]);
+                }
+    
+    
+                $totalNilais = [];
+                $array_totalNilais = [];
+                foreach ($data['kriteria'] as $kriteria1) {
+                    $totalNilais[$kriteria1['kode']] = 0;
+                    foreach ($data['kriteria'] as $kriteria2) {
+                        foreach ($data['bobot'] as $b) {
+                            if (
+                                $kriteria2['kode'] . $kriteria1['kode'] ==
+                                    $b['kriteria_id'] . $b['kriteria_id2'] ||
+                                $kriteria1['kode'] . $kriteria2['kode'] ==
+                                    $b['kriteria_id2'] . $b['kriteria_id']
+                            ) {
+                                $o = $b['nilai'] / $totalNilai[$kriteria1['kode']];
+                                $totalNilais[$kriteria1['kode']] += $o;
+                            }
+                        }
+                    }
+                    $kk = [
+                        'kode' => $kriteria1['kode'],
+                        'nilai' => $totalNilais[$kriteria1['kode']]
+                    ];
+                    array_push($array_totalNilais,$kk);
+                    
+                }
+    
+                $totalNilaiJumlah = [];
+                $array_totalNilaiJumlah = [];
+                foreach ($data['kriteria'] as $kriteria1) {
+                    $totalNilaiJumlah[$kriteria1['kode']] = 0;
+                    foreach ($data['bobot'] as $b) {
+                        if ($kriteria1['kode'] == $b['kriteria_id']) {
+                            $o = $b['nilai'] / $totalNilai[$b['kriteria_id2']];
+                            $totalNilaiJumlah[$kriteria1['kode']] += $o;
+                        }
+                    }
+                    $kk = [
+                        'kode' => $kriteria1['kode'],
+                        'nilai' => $totalNilaiJumlah[$kriteria1['kode']]
+                    ];
+                    array_push($array_totalNilaiJumlah,$kk);
+                    Kriteria::where('kode',$kriteria1['kode'])->update([
+                        'jumlah' =>  $totalNilaiJumlah[$kriteria1['kode']],
+                        'prioritas' => $totalNilaiJumlah[$kriteria1['kode']] / count($data['kriteria']),
+                        'eigen_value' => ($totalNilaiJumlah[$kriteria1['kode']] / count($data['kriteria'])) * $totalNilai[$kriteria1['kode']]
+                    ]);
+                }
+    
+                foreach ($data['kriteria'] as $kriteria1){
+                    $totalJumlah += $totalNilaiJumlah[$kriteria1['kode']];
+                    $totalPrioritas += $totalNilaiJumlah[$kriteria1['kode']] / count($data['kriteria']);
+                    $totalEigen += ($totalNilaiJumlah[$kriteria1['kode']] / count($data['kriteria'])) *
+                    $totalNilai[$kriteria1['kode']];
+                }
+                DB::table('hasil_bobot_kriteria')->truncate();
+                DB::table('hasil_bobot_kriteria')->insert([
+                    'ci' => ($totalEigen - count($data['kriteria'])) / (count($data['kriteria']) - 1),
+                    'ri' => $nilai_ri,
+                    'cr' => ($totalEigen - count($data['kriteria'])) / (count($data['kriteria']) - 1) / $nilai_ri, 
+                ]);
+    
+                // return [
+                //     'ci' => ($totalEigen - count($data['kriteria'])) / (count($data['kriteria']) - 1),
+                //     'ri' => $nilai_ri,
+                //     'cr' => ($totalEigen - count($data['kriteria'])) / (count($data['kriteria']) - 1) / $nilai_ri,
+                // ];
 
     
             return redirect()->back()->with('success','Berhasil tambah data!');

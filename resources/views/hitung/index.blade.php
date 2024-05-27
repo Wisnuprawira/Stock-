@@ -446,18 +446,14 @@
                                 }
 
                                 $totalNilaiJumlah = [];
-                                // $totalNilaiJumlahTotal = 0;
                                 foreach ($data['kriteria'] as $kriteria1) {
                                     $totalNilaiJumlah[$kriteria1['kode']] = 0;
-                                    // foreach ($data['kriteria'] as $kriteria2) {
                                     foreach ($data['bobot'] as $b) {
                                         if ($kriteria1['kode'] == $b['kriteria_id']) {
                                             $o = $b['nilai'] / $totalNilai[$b['kriteria_id2']];
                                             $totalNilaiJumlah[$kriteria1['kode']] += $o;
                                         }
                                     }
-
-                                    // }
                                 }
 
                                 $totalJumlah = 0;
