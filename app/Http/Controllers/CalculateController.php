@@ -280,6 +280,7 @@ class CalculateController extends Controller
             'kriteria' => $krit,
             'bobot' => $bobot
         ];
+        
 
         // return $data;
         
@@ -288,7 +289,7 @@ class CalculateController extends Controller
 
     public function hitungSub(Request $request){
     
-        
+        return $request;
         $validator = Validator::make($request->all(), [
             // 'kode' => 'required',
             // 'nama' => 'required'
@@ -312,7 +313,7 @@ class CalculateController extends Controller
 
                 array_push($oke, $cc);
             }
-            // return $oke;
+        
             foreach ($oke as $item) {
             
                 // Cek jika pasangan rel_2 dan rel_1 belum ada
@@ -338,8 +339,6 @@ class CalculateController extends Controller
                 return strcmp($a['rel_1'], $b['rel_1']);
             });
             
-            // return $oke;
-            
         
             
             SubKriteriaBobot::where('kriteria_ids',$request->ids)->delete();
@@ -352,11 +351,25 @@ class CalculateController extends Controller
                     'nilai' => $value['nilai'],
                 ]);
             }
-           
-           
 
+            $krit = SubKriteria::where('kriteria_id',$request->ids)->orderby('kode',"ASC")->get();
 
+            $bobot = SubKriteriaBobot::where('kriteria_ids',$request->ids)->get();
+            $bobot->map(function($x){
+                $x['rel_1'] = SubKriteria::where([ 'kode' => $x['kriteria_id']])->first();
+                
+                $x['rel_2'] = SubKriteria::where([ 'kode' => $x['kriteria_id2']])->first();
+                $x->kodes = $x['kriteria_id'].'_'.$x['kriteria_id2'].'_'.$x['nilai'];
+                return $x;
+            });
+        
 
+            $data = [
+                'title' => "Perhitungan",
+                'kriteria' => $krit,
+                'bobot' => $bobot
+            ];
+            return $data;
     
             return redirect()->back()->with('success','Berhasil tambah data!');
         } catch (\Exception $e) {
