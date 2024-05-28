@@ -50,26 +50,19 @@
             <div class="col-lg-12 col-xs-12">
                 <div class="box-content">
                     <h4 class="box-title">Ranking Supplier</h4>
-
-                    {{-- <div class="dropdown js__drop_down">
-                    <a href="#" class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
-                    <ul class="sub-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else there</a></li>
-                        <li class="split"></li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul>
-                </div>
-                --}}
                     {{-- <p>Use contextual classes to color table rows or individual cells.</p> --}}
                     <table class="table">
                         {{-- <caption>Optional table caption.</caption> --}}
                         <thead>
                             <tr>
                                 {{-- <th>#</th> --}}
-                                <th class="text-center" width="20%">Rangking</th>
+                                
                                 <th class="text-center">Nama Supplier</th>
+                                @foreach ($data['list_krit'] as $value)
+                                    <th class="text-center">{{ $value['nama'] }}</th>
+                                @endforeach
+                                <th class="text-center">Total</th>
+                                <th class="text-center" width="20%">Rangking</th>
                                 {{-- <th>Username</th> --}}
                             </tr>
                         </thead>
@@ -78,20 +71,68 @@
                                 @php
                                     $key++;
                                 @endphp
-                                <tr class="@if ($key == 1) success @endif">
+                                <tr class="@if ($key == 1) success @endif @if ($key == 1) text-white @endif">
                                     {{-- <th scope="row">1</th> --}}
-                                    <td class="text-center @if ($key == 1) text-white @endif">
-                                        {{ $key }}</td>
-                                    <td class="text-center @if ($key == 1) text-white @endif">
-                                        {{ $value['nama'] }}</td>
+                                   
+                                    <td class="text-center ">{{ $value['nama'] }}</td>
+                                        @foreach ($value['sub_krits'] as $values)
+                                            <td class="text-center">{{ $values['nama'] }}</td>
+                                        @endforeach
+                                        <td class="text-center">{{ number_format($value['total_rangking'],2) }}</td>
+                                        <td class="text-center">
+                                            {{ $key }}</td>
                                 </tr>
                             @endforeach
-
                         </tbody>
                     </table>
                 </div>
                 <!-- /.box-content -->
             </div>
+            <div class="col-lg-12 col-xs-12">
+                <div class="box-content">
+                    {{-- <p>Use contextual classes to color table rows or individual cells.</p> --}}
+                    <table class="table">
+                        <caption>Kriteria</caption>
+                        <tbody>
+                            @foreach ($data['list_krit'] as $items)
+                                <tr>
+                                    <td>
+                                        {{ $items['nama'] }}
+                                    </td>
+                                    <td>
+                                        {{ number_format($items['prioritas'],2) }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-content -->
+            </div>
+            @foreach ($data['list_krit'] as $value)
+                <div class="col-lg-3 col-xs-12">
+                    <div class="box-content">
+                        {{-- <p>Use contextual classes to color table rows or individual cells.</p> --}}
+                        <table class="table">
+                            <caption>({{ $value['kode'] }}) {{ $value['nama'] }}</caption>
+                            <tbody>
+                                @foreach ($value['sub'] as $items)
+                                    <tr>
+                                        <td>
+                                            {{ $items['nama'] }}
+                                        </td>
+                                        <td>
+                                            {{ number_format($items['prioritas'],2) }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-content -->
+                </div>
+            @endforeach
+            
         </div>
     </div>
 @endsection
