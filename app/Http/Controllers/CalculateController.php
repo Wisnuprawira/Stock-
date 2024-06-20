@@ -281,9 +281,7 @@ class CalculateController extends Controller
             'bobot' => $bobot
         ];
         
-
-        // return $data;
-        
+ 
         return view('hitung.index',compact('data'));
     }
 

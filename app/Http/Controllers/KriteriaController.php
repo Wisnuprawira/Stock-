@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Kriteria;
-
+use App\Models\SubKriteria;
+use App\Models\SubKriteriaBobot;
+use App\Models\KriteriaBobot;
+use DB;
 class KriteriaController extends Controller
 {
     public function index(){
@@ -37,7 +40,19 @@ class KriteriaController extends Controller
         }
     
         try {
-            // Buat entri baru di database
+            KriteriaBobot::truncate();
+            DB::table('hasil_bobot_kriteria')->truncate();
+            DB::table('alternatif')->truncate();
+            $kriteria = Kriteria::get();
+            foreach ($kriteria as $item) {
+                $item->update([
+                    'total_nilai' => 0,
+                    'jumlah' => NULL,
+                    'prioritas' => NULL,
+                    'eigen_value' => NULL,
+                ]);
+            }
+
             Kriteria::create([
                 'kode' => $request->kode,
                 'nama' => $request->nama
@@ -94,7 +109,13 @@ class KriteriaController extends Controller
     public function delete($id){
         try {
             $kriteria = Kriteria::findOrFail($id);
+            KriteriaBobot::truncate();
+            SubKriteria::where('kriteria_id',$id)->delete();
+            SubKriteriaBobot::where('kriteria_ids',$id)->delete();
+            DB::table('hasil_bobot_kriteria')->truncate();
+            DB::table('hasil_bobot_sub_kriteria')->where('sub_kriteria_id',$id)->delete();
             $kriteria->delete();
+            DB::table('alternatif')->truncate();
             return redirect()->back()->with('success', 'Data berhasil dihapus!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data: ' . $e->getMessage());

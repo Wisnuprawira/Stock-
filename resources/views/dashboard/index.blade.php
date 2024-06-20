@@ -1,6 +1,6 @@
 @extends('layouts.index')
 @section('content')
-    <div class="row small-spacing">
+    <div class="row small-spacing" style="margin:10px;">
         <div class="row small-spacing">
             <div class="col-lg-4 col-md-6 col-xs-12">
                 <div class="box-content bg-success text-white">
@@ -88,7 +88,7 @@
                 </div>
                 <!-- /.box-content -->
             </div>
-            <div class="col-lg-12 col-xs-12">
+            <div class="col-lg-3 col-xs-12">
                 <div class="box-content">
                     {{-- <p>Use contextual classes to color table rows or individual cells.</p> --}}
                     <table class="table">

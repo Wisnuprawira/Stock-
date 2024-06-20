@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Kriteria;
 use App\Models\SubKriteria;
+use App\Models\SubKriteriaBobot;
+use DB;
 
 class SubKriteriaController extends Controller
 {
@@ -47,11 +49,24 @@ class SubKriteriaController extends Controller
     
         try {
             // Buat entri baru di database
+            SubKriteria::where('kriteria_id',$request->kriteria)->update([
+                'total_nilai' => 0,
+                'jumlah' => NULL,
+                'prioritas' => NULL,
+                'eigen_value' => NULL,
+            ]);
+
+            SubKriteriaBobot::where('kriteria_ids',$request->kriteria)->delete();
+            DB::table('hasil_bobot_sub_kriteria')->truncate();
+            DB::table('alternatif')->truncate();
+
             SubKriteria::create([
                 'kriteria_id' => $request->kriteria,
                 'kode' => $request->kode,
                 'nama' => $request->nama
             ]);
+
+           
     
             // Jika berhasil, kembalikan respons yang sesuai
             return redirect()->back()->with('success','Berhasil tambah data!');
@@ -108,6 +123,16 @@ class SubKriteriaController extends Controller
     public function delete($id){
         try {
             $data = SubKriteria::findOrFail($id);
+            SubKriteria::where('kriteria_id',$data->kriteria_id)->update([
+                'total_nilai' => 0,
+                'jumlah' => NULL,
+                'prioritas' => NULL,
+                'eigen_value' => NULL,
+            ]);
+
+            SubKriteriaBobot::where('kriteria_ids',$data->kriteria_id)->delete();
+            DB::table('hasil_bobot_sub_kriteria')->truncate();
+            DB::table('alternatif')->truncate();
             $data->delete();
             return redirect()->back()->with('success', 'Data berhasil dihapus!');
         } catch (\Exception $e) {

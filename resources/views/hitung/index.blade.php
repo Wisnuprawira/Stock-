@@ -47,6 +47,22 @@
 
                                             <div class="form-group col-lg-6">
                                                 <select class="form-control" name="kriteria[]">
+                                                    <option value="0.9">
+                                                        9 - Mendekati Sedikit Lebih Penting</option>
+                                                    <option value="0.8">
+                                                        8 - Sedikit lebih penting</option>
+                                                    <option value="0.7">
+                                                        7 - Mendekati Cukup Penting</option>
+                                                    <option value="0.6">
+                                                        6 - Cukup penting</option>
+                                                    <option value="0.5">
+                                                        5 - Mendekati Sangat Penting</option>
+                                                    <option value="0.4">
+                                                        4 - Sangat penting </option>
+                                                    <option value="0.3">
+                                                        3 - Mendekati Ekstrim pentingnya</option>
+                                                    <option value="0.2">
+                                                        2 - Ekstrim pentingnya</option>
                                                     <option value="1">
                                                         1 - Sama Pentingnya</option>
                                                     <option value="2">
@@ -98,8 +114,24 @@
 
 
                                             <div class="form-group col-lg-6">
-                                                <select class="form-control" name="kriteria[]">
-                                                    <option value="1">
+                                                <select class="form-control text-center" name="kriteria[]">
+                                                    <option value="0.9">
+                                                        Mendekati Sedikit Lebih Penting - 9</option>
+                                                    <option value="0.8">
+                                                        Sedikit lebih penting - 8</option>
+                                                    <option value="0.7">
+                                                        Mendekati Cukup Penting - 7</option>
+                                                    <option value="0.6">
+                                                        Cukup penting - 6</option>
+                                                    <option value="0.5">
+                                                        Mendekati Sangat Penting - 5</option>
+                                                    <option value="0.4">
+                                                        Sangat penting - 4</option>
+                                                    <option value="0.3">
+                                                        Mendekati Ekstrim pentingnya - 3</option>
+                                                    <option value="0.2">
+                                                        Ekstrim pentingnya - 2</option>
+                                                    <option value="1" selected>
                                                         1 - Sama Pentingnya</option>
                                                     <option value="2">
                                                         2 - Mendekati Sedikit Lebih Penting</option>
@@ -167,6 +199,22 @@
 
                                         <div class="form-group col-lg-6">
                                             <select class="form-control" name="kriteria[]">
+                                                <option value="0.9" @if ($value['nilai'] == 0.9) selected @endif>
+                                                    Mendekati Sedikit Lebih Penting - 9</option>
+                                               <option value="0.8" @if ($value['nilai'] == 0.8) selected @endif>
+                                                    Sedikit lebih penting - 8</option>
+                                               <option value="0.7" @if ($value['nilai'] == 0.7) selected @endif>
+                                                    Mendekati Cukup Penting - 7</option>
+                                               <option value="0.6" @if ($value['nilai'] == 0.6) selected @endif>
+                                                    Cukup penting - 6</option>
+                                               <option value="0.5" @if ($value['nilai'] == 0.5) selected @endif>
+                                                    Mendekati Sangat Penting - 5</option>
+                                               <option value="0.4" @if ($value['nilai'] == 0.4) selected @endif>
+                                                    Sangat penting  - 4</option>
+                                               <option value="0.3" @if ($value['nilai'] == 0.3) selected @endif>
+                                                    Mendekati Ekstrim pentingnya - 3</option>
+                                               <option value="0.2" @if ($value['nilai'] == 0.2) selected @endif>
+                                                    Ekstrim pentingnya - 2</option>
                                                 <option value="1" @if ($value['nilai'] == 1) selected @endif>
                                                     1 - Sama Pentingnya</option>
                                                 <option value="2" @if ($value['nilai'] == 2) selected @endif>
@@ -214,7 +262,23 @@
 
 
                                         <div class="form-group col-lg-6">
-                                            <select class="form-control" name="kriteria[]">
+                                            <select class="form-control text-center" name="kriteria[]">
+                                                <option value="0.9" @if ($value['nilai'] == 0.9) selected @endif>
+                                                    Mendekati Sedikit Lebih Penting - 9</option>
+                                                <option value="0.8" @if ($value['nilai'] == 0.8) selected @endif>
+                                                    Sedikit lebih penting - 8</option>
+                                                <option value="0.7" @if ($value['nilai'] == 0.7) selected @endif>
+                                                    Mendekati Cukup Penting - 7</option>
+                                                <option value="0.6" @if ($value['nilai'] == 0.6) selected @endif>
+                                                    Cukup penting - 6</option>
+                                                <option value="0.5" @if ($value['nilai'] == 0.5) selected @endif>
+                                                    Mendekati Sangat Penting - 5</option>
+                                                <option value="0.4" @if ($value['nilai'] == 0.4) selected @endif>
+                                                    Sangat penting  - 4</option>
+                                                <option value="0.3" @if ($value['nilai'] == 0.3) selected @endif>
+                                                    Mendekati Ekstrim pentingnya - 3</option>
+                                                <option value="0.2" @if ($value['nilai'] == 0.2) selected @endif>
+                                                    Ekstrim pentingnya - 2</option>
                                                 <option value="1" @if ($value['nilai'] == 1) selected @endif>
                                                     1 - Sama Pentingnya</option>
                                                 <option value="2" @if ($value['nilai'] == 2) selected @endif>
@@ -544,29 +608,30 @@
                         <tbody>
                             <tr class="text-center">
                                 <td width="20%">Matrik Size</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>4</td>
-                                <td>5</td>
-                                <td>6</td>
-                                <td>7</td>
-                                <td>8</td>
-                                <td>9</td>
-                                <td>10</td>
+                            
+                                <td class="@if($count == 1) bg-success text-white @endif">1 </td>
+                                <td  class="@if($count == 2) bg-success text-white @endif">2</td>
+                                <td  class="@if($count == 3) bg-success text-white @endif">3</td>
+                                <td  class="@if($count == 4) bg-success text-white @endif">4</td>
+                                <td  class="@if($count == 5) bg-success text-white @endif">5</td>
+                                <td  class="@if($count == 6) bg-success text-white @endif">6</td>
+                                <td  class="@if($count == 7) bg-success text-white @endif">7</td>
+                                <td  class="@if($count == 8) bg-success text-white @endif">8</td>
+                                <td  class="@if($count == 9) bg-success text-white @endif">9</td>
+                                <td  class="@if($count == 10) bg-success text-white @endif">10</td>
                             </tr>
                             <tr class="text-center">
                                 <td width="20%">Random Consistency Index (RI)</td>
-                                <td>0.00</td>
-                                <td>0.00</td>
-                                <td>0.58</td>
-                                <td>0.90</td>
-                                <td>1.12</td>
-                                <td>1.24</td>
-                                <td>1.32</td>
-                                <td>1.41</td>
-                                <td>1.45</td>
-                                <td>1.49</td>
+                                <td class="@if($count == 1) bg-success text-white @endif">0.00</td>
+                                <td class="@if($count == 2) bg-success text-white @endif">0.00</td>
+                                <td class="@if($count == 3) bg-success text-white @endif">0.58</td>
+                                <td class="@if($count == 4) bg-success text-white @endif">0.90</td>
+                                <td class="@if($count == 5) bg-success text-white @endif">1.12</td>
+                                <td class="@if($count == 6) bg-success text-white @endif">1.24</td>
+                                <td class="@if($count == 7) bg-success text-white @endif">1.32</td>
+                                <td class="@if($count == 8) bg-success text-white @endif">1.41</td>
+                                <td class="@if($count == 9) bg-success text-white @endif">1.45</td>
+                                <td class="@if($count == 10) bg-success text-white @endif">1.49</td>
                             </tr>
                         </tbody>
                     </table>
@@ -591,7 +656,7 @@
                                     <td width="20%">RI (Ratio Index)</td>
                                     <td>{{$nilai_ri}}</td>
                                 </tr>
-                                <tr>
+                                <tr class="@if(number_format(($totalEigen - count($data['kriteria'])) / (count($data['kriteria']) - 1) / $nilai_ri, 2) >= 0.1) bg-danger text-white @else bg-success text-white  @endif">
                                     <td width="20%">CR (Consistency Ratio)</td>
                                     <td>{{ number_format(($totalEigen - count($data['kriteria'])) / (count($data['kriteria']) - 1) / $nilai_ri, 2) }}
                                     </td>
@@ -599,7 +664,17 @@
 
                             </tbody>
                         </table>
+                        
+                        <div class="text-center">
+                            @if(number_format(($totalEigen - count($data['kriteria'])) / (count($data['kriteria']) - 1) / $nilai_ri, 2) >= 0.1)
+                            <h4 class="text-danger">Tidak Konsisten</h4>
+                            @else
+                            <h4 class="text-success">Konsisten</h4>
+                            
+                            @endif
+                        </div>
                     </div>
+                 
                 @else
                     <div class="card-content">
                         <table class="table table-bordered">
