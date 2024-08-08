@@ -29,9 +29,6 @@ class CalculateController extends Controller
             'kriteria' => $krit,
             'bobot' => $bobot
         ];
-       
-
-
         
 
         return view('hitung.index',compact('data'));

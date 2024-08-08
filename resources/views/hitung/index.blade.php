@@ -4,8 +4,10 @@
         <div class="col-lg-12 col-xs-12">
             <div class="box-content card white">
                 <h4 class="box-title">Perbandingan Kriteria</h4>
+                
                 @php
                     $data_ri = [
+                        '0' => 0.0,
                         '1' => 0.0,
                         '2' => 0.0,
                         '3' => 0.58,
@@ -17,8 +19,9 @@
                         '9' => 1.45,
                         '10' => 1.49,
                     ];
-                    $count = count($data['kriteria']);
-                    $nilai_ri = $data_ri[$count];
+                        $count = count($data['kriteria']);
+                        $nilai_ri = $data_ri[$count];
+                    
                 @endphp
     
                 @if (request()->segment(3))
@@ -48,21 +51,21 @@
                                             <div class="form-group col-lg-6">
                                                 <select class="form-control" name="kriteria[]">
                                                     <option value="0.9">
-                                                        9 - Mendekati Sedikit Lebih Penting</option>
+                                                        Ekstrim pentingnya - 9</option>
                                                     <option value="0.8">
-                                                        8 - Sedikit lebih penting</option>
+                                                        Mendekati Ekstrim pentingnya - 8</option>
                                                     <option value="0.7">
-                                                        7 - Mendekati Cukup Penting</option>
+                                                        Sangat penting - 7</option>
                                                     <option value="0.6">
-                                                        6 - Cukup penting</option>
+                                                        Mendekati Sangat Penting - 6</option>
                                                     <option value="0.5">
-                                                        5 - Mendekati Sangat Penting</option>
+                                                        Cukup penting - 5</option>
                                                     <option value="0.4">
-                                                        4 - Sangat penting </option>
+                                                        Mendekati Cukup Penting - 4</option>
                                                     <option value="0.3">
-                                                        3 - Mendekati Ekstrim pentingnya</option>
+                                                        Sedikit lebih penting - 3</option>
                                                     <option value="0.2">
-                                                        2 - Ekstrim pentingnya</option>
+                                                         Mendekati Sedikit Lebih Penting - 2</option>
                                                     <option value="1">
                                                         1 - Sama Pentingnya</option>
                                                     <option value="2">
@@ -116,21 +119,21 @@
                                             <div class="form-group col-lg-6">
                                                 <select class="form-control text-center" name="kriteria[]">
                                                     <option value="0.9">
-                                                        Mendekati Sedikit Lebih Penting - 9</option>
+                                                        Ekstrim pentingnya - 9</option>
                                                     <option value="0.8">
-                                                        Sedikit lebih penting - 8</option>
+                                                        Mendekati Ekstrim pentingnya - 8</option>
                                                     <option value="0.7">
-                                                        Mendekati Cukup Penting - 7</option>
+                                                        Sangat penting - 7</option>
                                                     <option value="0.6">
-                                                        Cukup penting - 6</option>
+                                                        Mendekati Sangat Penting - 6</option>
                                                     <option value="0.5">
-                                                        Mendekati Sangat Penting - 5</option>
+                                                        Cukup penting - 5</option>
                                                     <option value="0.4">
-                                                        Sangat penting - 4</option>
+                                                        Mendekati Cukup Penting - 4</option>
                                                     <option value="0.3">
-                                                        Mendekati Ekstrim pentingnya - 3</option>
+                                                        Sedikit lebih penting - 3</option>
                                                     <option value="0.2">
-                                                        Ekstrim pentingnya - 2</option>
+                                                         Mendekati Sedikit Lebih Penting - 2</option>
                                                     <option value="1" selected>
                                                         1 - Sama Pentingnya</option>
                                                     <option value="2">
@@ -149,7 +152,6 @@
                                                         8 - Mendekati Ekstrim pentingnya</option>
                                                     <option value="9">
                                                         9 - Ekstrim pentingnya</option>
-
                                                 </select>
                                             </div>
 
@@ -200,21 +202,21 @@
                                         <div class="form-group col-lg-6">
                                             <select class="form-control" name="kriteria[]">
                                                 <option value="0.9" @if ($value['nilai'] == 0.9) selected @endif>
-                                                    Mendekati Sedikit Lebih Penting - 9</option>
+                                                    Ekstrim pentingnya - 9</option>
                                                <option value="0.8" @if ($value['nilai'] == 0.8) selected @endif>
-                                                    Sedikit lebih penting - 8</option>
+                                                Mendekati Ekstrim pentingnya - 8</option>
                                                <option value="0.7" @if ($value['nilai'] == 0.7) selected @endif>
-                                                    Mendekati Cukup Penting - 7</option>
+                                                Sangat penting - 7</option>
                                                <option value="0.6" @if ($value['nilai'] == 0.6) selected @endif>
-                                                    Cukup penting - 6</option>
+                                                Mendekati Sangat Penting - 6</option>
                                                <option value="0.5" @if ($value['nilai'] == 0.5) selected @endif>
-                                                    Mendekati Sangat Penting - 5</option>
+                                                Cukup penting - 5</option>
                                                <option value="0.4" @if ($value['nilai'] == 0.4) selected @endif>
-                                                    Sangat penting  - 4</option>
+                                                Mendekati Cukup Penting  - 4</option>
                                                <option value="0.3" @if ($value['nilai'] == 0.3) selected @endif>
-                                                    Mendekati Ekstrim pentingnya - 3</option>
+                                                Sedikit lebih penting - 3</option>
                                                <option value="0.2" @if ($value['nilai'] == 0.2) selected @endif>
-                                                    Ekstrim pentingnya - 2</option>
+                                                Mendekati Sedikit Lebih Penting - 2</option>
                                                 <option value="1" @if ($value['nilai'] == 1) selected @endif>
                                                     1 - Sama Pentingnya</option>
                                                 <option value="2" @if ($value['nilai'] == 2) selected @endif>
@@ -264,21 +266,21 @@
                                         <div class="form-group col-lg-6">
                                             <select class="form-control text-center" name="kriteria[]">
                                                 <option value="0.9" @if ($value['nilai'] == 0.9) selected @endif>
-                                                    Mendekati Sedikit Lebih Penting - 9</option>
+                                                    Ekstrim pentingnya - 9</option>
                                                 <option value="0.8" @if ($value['nilai'] == 0.8) selected @endif>
-                                                    Sedikit lebih penting - 8</option>
+                                                    Mendekati Ekstrim pentingnya - 8</option>
                                                 <option value="0.7" @if ($value['nilai'] == 0.7) selected @endif>
-                                                    Mendekati Cukup Penting - 7</option>
+                                                    Sangat penting - 7</option>
                                                 <option value="0.6" @if ($value['nilai'] == 0.6) selected @endif>
-                                                    Cukup penting - 6</option>
+                                                    Mendekati Sangat Penting - 6</option>
                                                 <option value="0.5" @if ($value['nilai'] == 0.5) selected @endif>
-                                                    Mendekati Sangat Penting - 5</option>
+                                                    Cukup penting - 5</option>
                                                 <option value="0.4" @if ($value['nilai'] == 0.4) selected @endif>
-                                                    Sangat penting  - 4</option>
+                                                    Mendekati Cukup Penting - 4</option>
                                                 <option value="0.3" @if ($value['nilai'] == 0.3) selected @endif>
-                                                    Mendekati Ekstrim pentingnya - 3</option>
+                                                    Sedikit lebih penting - 3</option>
                                                 <option value="0.2" @if ($value['nilai'] == 0.2) selected @endif>
-                                                    Ekstrim pentingnya - 2</option>
+                                                    Mendekati Sedikit Lebih Penting - 2</option>
                                                 <option value="1" @if ($value['nilai'] == 1) selected @endif>
                                                     1 - Sama Pentingnya</option>
                                                 <option value="2" @if ($value['nilai'] == 2) selected @endif>
