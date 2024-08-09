@@ -32,7 +32,8 @@ class AuthController extends Controller
             User::create([
                 'name' => $request->username,
                 'email' => $request->email,
-                'password' => $request->password
+                'password' => $request->password,
+                'jabatan' => 'user'
             ]);
 
             return redirect()->route('loginPage')->with('success', 'Berhasil register. Silahkan login.');
