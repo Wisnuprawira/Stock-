@@ -23,7 +23,7 @@
                                 </select>
                             </div>
                         @endforeach
-                        <a href="{{ route('kriteria.index') }}" class="btn btn-secondary btn-sm waves-effect waves-light">
+                        <a href="{{ route('alternatif.index') }}" class="btn btn-secondary btn-sm waves-effect waves-light">
                             <i class="fa fa-arrow-left"></i> Back</a>
                         <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Submit</button>
                     </form>

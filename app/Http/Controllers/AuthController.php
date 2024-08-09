@@ -10,7 +10,34 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 
-{
+{   
+
+
+    public function registerPage(){
+        return view('auth.register');
+    }
+
+    public function register(Request $request){
+  
+            $em = User::where('name',$request->email)->first();
+            if($em){
+                return redirect()->back()->with('error','Email sudah dipakai!');
+            }
+
+            $username = User::where('name',$request->username)->first();
+            if($username){
+                return redirect()->back()->with('error','Username sudah dipakai!');
+            }
+
+            User::create([
+                'name' => $request->username,
+                'email' => $request->email,
+                'password' => $request->password
+            ]);
+
+            return redirect()->route('loginPage')->with('success', 'Berhasil register. Silahkan login.');
+        
+    }
 
     public function loginPage(){
         return view('auth.login');
