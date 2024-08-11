@@ -57,7 +57,7 @@ class AuthController extends Controller
             return redirect()->route('dashboard.index'); // Redirect ke halaman dashboard
         } else {
             // Otentikasi gagal
-            return back()->withInput()->withErrors(['email' => 'Email atau password salah.']); // Redirect kembali dengan pesan kesalahan
+            return redirect()->back()->with('error','Email atau password salah.'); // Redirect kembali dengan pesan kesalahan
         }
     }
 
