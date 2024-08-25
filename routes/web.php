@@ -22,7 +22,7 @@ Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->na
 Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
-        return view('dashboard.index');
+        return redirect()->route('dashboard.index');
     });
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
     
