@@ -7,30 +7,48 @@ use App\Models\User;
 use App\Models\Alternatif;
 use App\Models\Kriteria;
 use App\Models\SubKriteria;
+use DB;
 
 class DashboardController extends Controller
 {
     public function index(){
         $user = User::count();
-        $sup = Alternatif::orderby('nama','ASC')->get();
-        $sup->map(function($x){
-            $explode = explode('_',$x->sub_kriteria_ids);
-            $x['sub_krits'] = SubKriteria::whereIn('id',$explode)->get();
-           
+        $years = DB::table('alternatif')
+    ->select('tahun')
+    ->groupBy('tahun')
+    ->pluck('tahun');
 
-            $x['sub_krits']->map(function($y) use ($x){
-                $y['krits'] = Kriteria::where('id',$y->kriteria_id)->first();
-                $x['total_rangking'] += ($y['krits']['prioritas'] * $y['prioritas']);
-                return $y;
+        $loops = [];
+        foreach($years as $value){
+            $tahun = $value;
+            $datas = Alternatif::where('tahun',$value)->get();
+            $datas->map(function($x){
+                $explode = explode('_',$x->sub_kriteria_ids);
+                $x['sub_krits'] = SubKriteria::whereIn('id',$explode)->get();
+               
+    
+                $x['sub_krits']->map(function($y) use ($x){
+                    $y['krits'] = Kriteria::where('id',$y->kriteria_id)->first();
+                    $x['total_rangking'] += ($y['krits']['prioritas'] * $y['prioritas']);
+                    return $y;
+                });
+                $x['explode'] = $explode;
+                return $x;
             });
-            $x['explode'] = $explode;
-            return $x;
-        });
-        $sup = $sup->sortBy('total_rangking')->values();
-        // Assign rankings based on sorted order
-        $sup->each(function($x, $index) {
-            $x->number_rangking = $index + 1;
-        });
+            $datas = $datas->sortBy('total_rangking')->values();
+            // Assign rankings based on sorted order
+            $datas->each(function($x, $index) {
+                $x->number_rangking = $index + 1;
+            });
+            $x = [
+                'tahun' => $value,
+                'data' => $datas
+            ];
+            array_push($loops, $x);
+        }
+  
+        
+        
         // return $sup;
         $krit = Kriteria::orderby('kode','ASC')->get();
         $krit->map(function($x){
@@ -41,9 +59,10 @@ class DashboardController extends Controller
         $data = [
             'title' => "Dashboard",
             'user' => $user,
-            'sup' => $sup,
+            // 'sup' => $sup,
             'krit' => $krit->count(),
-            'list_krit' => $krit
+            'list_krit' => $krit,
+            'loops' => $loops
         ];
         
         // return $data;

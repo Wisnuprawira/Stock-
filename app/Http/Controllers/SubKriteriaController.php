@@ -12,7 +12,7 @@ use DB;
 class SubKriteriaController extends Controller
 {
     public function index(){
-        $x = SubKriteria::orderby('kriteria_id','ASC')->orderby('kode','ASC')->get();
+        $x = SubKriteria::orderby('kriteria_id','ASC')->get();
         $x->map(function($c){
             $c['kriteria'] = Kriteria::where('id',$c->kriteria_id)->first();
             return $c;

@@ -9,11 +9,18 @@
                     <form action="{{ route('alternatif.create') }}" method="post">
                         @csrf
                         <div class="form-group">
-                            <label for="kode">Nama Supplier</label>
-                            <input name="nama" type="text" class="form-control"  placeholder="Enter your name supplier">
+                            <label for="kode">Tahun</label>
+                            <input name="tahun" type="number" class="form-control" id="tahunInput" placeholder="Pilih Tahun" min="1900" max="2100" step="1">
+
                         </div>
+                        <div class="form-group">
+                            <label for="kode">Nama Perusahaan</label>
+                            <input name="nama" type="text" class="form-control"
+                                placeholder="Enter your name supplier">
+                        </div>
+
                         @foreach ($data['krit'] as $value)
-                            <input type="hidden" name="krit[]" id="" value="{{$value['id']}}">
+                            <input type="hidden" name="krit[]" id="" value="{{ $value['id'] }}" >
                             <div class="form-group">
                                 <label for="kode">{{ $value['nama'] }}</label>
                                 <select class="form-control" name="sub_krit[]" id="">
@@ -33,8 +40,10 @@
             <!-- /.box-content -->
         </div>
     </div>
+   
 @endsection
 @section('js')
+
     @if (session('success'))
         <script>
             toastr.success("{{ session('success') }}");

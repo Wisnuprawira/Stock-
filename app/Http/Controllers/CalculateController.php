@@ -15,7 +15,7 @@ class CalculateController extends Controller
 {
     public function index(){
         
-        $krit = Kriteria::orderby('kode',"ASC")->get();
+        $krit = Kriteria::get();
         $bobot = KriteriaBobot::get();
         $bobot->map(function($x){
             $x['rel_1'] = Kriteria::where('kode',$x['kriteria_id'])->first();
@@ -82,9 +82,10 @@ class CalculateController extends Controller
                     array_push($oke, $reversePair);
                 }
             }
-            usort($oke, function($a, $b) {
-                return strcmp($a['rel_1'], $b['rel_1']);
-            });
+            // return $oke;
+            // usort($oke, function($a, $b) {
+            //     return strcmp($a['rel_1'], $b['rel_1']);
+            // });
             
             // return $oke;
             
@@ -113,7 +114,7 @@ class CalculateController extends Controller
                 '10' => 1.49,
             ];
 
-            $krit = Kriteria::orderby('kode',"ASC")->get();
+            $krit = Kriteria::get();
             $bobot = KriteriaBobot::get();
             $bobot->map(function($x){
                 $x['rel_1'] = Kriteria::where('kode',$x['kriteria_id'])->first();
@@ -260,7 +261,7 @@ class CalculateController extends Controller
     }
 
     public function indexSub($id){
-        $krit = SubKriteria::where('kriteria_id',$id)->orderby('kode',"ASC")->get();
+        $krit = SubKriteria::where('kriteria_id',$id)->get();
 
         $bobot = SubKriteriaBobot::where('kriteria_ids',$id)->get();
         $bobot->map(function($x){
@@ -330,9 +331,9 @@ class CalculateController extends Controller
                     array_push($oke, $reversePair);
                 }
             }
-            usort($oke, function($a, $b) {
-                return strcmp($a['rel_1'], $b['rel_1']);
-            });
+            // usort($oke, function($a, $b) {
+            //     return strcmp($a['rel_1'], $b['rel_1']);
+            // });
             
         
             

@@ -24,7 +24,7 @@
                 <!-- /.box-content -->
             </div>
             <!-- /.col-lg-3 col-md-6 col-xs-12 -->
-            <div class="col-lg-4 col-md-6 col-xs-12">
+            {{-- <div class="col-lg-4 col-md-6 col-xs-12">
                 <div class="box-content bg-danger text-white">
                     <div class="statistics-box with-icon">
                         <i class="ico small fa fa-dropbox"></i>
@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <!-- /.box-content -->
-            </div>
+            </div> --}}
             <!-- /.col-lg-3 col-md-6 col-xs-12 -->
             {{-- <div class="col-lg-3 col-md-6 col-xs-12">
                 <div class="box-content bg-warning text-white">
@@ -46,10 +46,12 @@
                 <!-- /.box-content -->
             </div> --}}
         </div>
+        
         <div class="row small-spacing">
+            @foreach($data['loops'] as $items)
             <div class="col-lg-12 col-xs-12">
                 <div class="box-content">
-                    <h4 class="box-title">Ranking Supplier</h4>
+                    <h4 class="box-title">Tahun {{$items['tahun']}}</h4>
                     {{-- <p>Use contextual classes to color table rows or individual cells.</p> --}}
                     <table class="table">
                         {{-- <caption>Optional table caption.</caption> --}}
@@ -67,7 +69,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data['sup'] as $key => $value)
+                            @foreach ($items['data'] as $key => $value)
                                 @php
                                     $key++;
                                 @endphp
@@ -88,6 +90,8 @@
                 </div>
                 <!-- /.box-content -->
             </div>
+            
+            @endforeach
             <div class="col-lg-3 col-xs-12">
                 <div class="box-content">
                     {{-- <p>Use contextual classes to color table rows or individual cells.</p> --}}

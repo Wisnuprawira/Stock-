@@ -78,6 +78,7 @@ class AlternatifController extends Controller
             foreach($request['krit'] as $key => $value){
           
                 $data = [
+                    
                     'nama' => $request['nama'],
                     'kriteria_id' => $value,
                     'sub_kriteria_id' => $request['sub_krit'][$key]
@@ -97,6 +98,7 @@ class AlternatifController extends Controller
             // return $kodes;
       
             $data = [
+                'tahun' => $request['tahun'],
                 'nama' => $request['nama'],
                 'sub_kriteria_ids' => $kodes
             ];

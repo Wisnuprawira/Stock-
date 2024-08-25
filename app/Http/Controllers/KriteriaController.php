@@ -12,7 +12,7 @@ use DB;
 class KriteriaController extends Controller
 {
     public function index(){
-        $kriteria = Kriteria::orderby('nama','ASC')->get();
+        $kriteria = Kriteria::get();
         $data = [
             'title' => "Kriteria",
             'data' => $kriteria
