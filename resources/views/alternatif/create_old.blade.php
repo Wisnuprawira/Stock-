@@ -22,13 +22,12 @@
                         @foreach ($data['krit'] as $value)
                             <input type="hidden" name="krit[]" id="" value="{{ $value['id'] }}" >
                             <div class="form-group">
-                                <label for="kode">Nilai {{ $value['nama'] }} (%)</label>
-                                <input type="number" class="form-control" min="0" max="100" name="sub_krit[]">
-                                {{-- <select class="form-control" name="sub_krit[]" id="">
+                                <label for="kode">{{ $value['nama'] }}</label>
+                                <select class="form-control" name="sub_krit[]" id="">
                                     @foreach ($value['sub'] as $items)
                                         <option value="{{ $items['id'] }}">{{ $items['nama'] }}</option>
                                     @endforeach
-                                </select> --}}
+                                </select>
                             </div>
                         @endforeach
                         <a href="{{ route('alternatif.index') }}" class="btn btn-secondary btn-sm waves-effect waves-light">

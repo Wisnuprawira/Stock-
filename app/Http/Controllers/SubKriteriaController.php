@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Kriteria;
 use App\Models\SubKriteria;
+use App\Models\Alternatif;
 use App\Models\SubKriteriaBobot;
 use DB;
 
@@ -35,6 +36,7 @@ class SubKriteriaController extends Controller
     }
 
     public function create(Request $request){
+        
         // Validasi data yang diterima dari request
         $validator = Validator::make($request->all(), [
             'kriteria' => 'required',
@@ -60,10 +62,17 @@ class SubKriteriaController extends Controller
             DB::table('hasil_bobot_sub_kriteria')->truncate();
             DB::table('alternatif')->truncate();
 
+            $nilai = $request->nilai;
+            if($request->nilai == null){
+                $nilai = $request->nilai_1.'-'.$request->nilai_2;
+            }
+
             SubKriteria::create([
                 'kriteria_id' => $request->kriteria,
                 'kode' => $request->kode,
-                'nama' => $request->nama
+                'nama' => $request->nama,
+                'operator' => $request->operator,
+                'operator_nilai' => $nilai,
             ]);
 
            
@@ -80,17 +89,22 @@ class SubKriteriaController extends Controller
     public function editPages($id){
         $kriteria = Kriteria::orderby('kode','ASC')->get();
         $datas = SubKriteria::where('id',$id)->first();
+        if($datas->operator == '<=>'){
+
+            $datas->exp = explode('-',$datas->operator_nilai);
+        }
         $data = [
             'title' => "Kriteria",
             'kriteria' => $kriteria,
             'data' => $datas
         ];
+        // return $data;
         return view('sub_kriteria.edit',compact('data'));
     }
 
     public function edit(Request $request, $id){
 
-        
+        // return $request;
         // Validasi data yang diterima dari request
         $validator = Validator::make($request->all(), [
             'kriteria' => 'required',
@@ -106,11 +120,19 @@ class SubKriteriaController extends Controller
         try {
             // Buat entri baru di database
             $x = SubKriteria::where('id',$id)->first();
+            $nilai = $request->nilai;
+            if($request->nilai == null){
+                $nilai = $request->nilai_1.'-'.$request->nilai_2;
+            }
             $x->update([
                 'kriteria_id' => $request->kriteria,
                 'kode' => $request->kode,
-                'nama' => $request->nama
+                'nama' => $request->nama,
+                'operator' => $request->operator,
+                'operator_nilai' => $nilai,
             ]);
+
+            DB::table('alternatif')->truncate();
     
             // Jika berhasil, kembalikan respons yang sesuai
             return redirect()->back()->with('success','Berhasil tambah data!');

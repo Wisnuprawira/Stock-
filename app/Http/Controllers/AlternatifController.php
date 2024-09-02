@@ -72,6 +72,37 @@ class AlternatifController extends Controller
         }
     
         try {
+
+
+            //new ent
+            $sub_krits = [];
+            foreach($request->krit as $key => $value){
+                $sub_get = SubKriteria::where('kriteria_id',$value)->get();
+                $nilai = $request->sub_krit[$key];
+                foreach($sub_get as $key => $items){
+                    $operator = $items->operator;
+                    $operator_nilai = $items->operator_nilai;
+                    $expression = '';
+
+                    if ($operator == '<=>') {
+                        $exp = explode('-', $operator_nilai);
+                            $min = $exp[0];
+                            $max = $exp[1];
+                            $expression = "$nilai >= $min && $nilai <= $max";
+                        
+                    } else {
+                        $expression = "$nilai $operator $operator_nilai";
+                    }
+                    if (eval("return $expression;")) {
+                        array_push($sub_krits, $items->id);
+                    } 
+                }
+            }
+
+            // return $sub_krits;
+            //end
+
+
             // Buat entri baru di database
             $datas = [];
             $kodes = "";
@@ -81,14 +112,14 @@ class AlternatifController extends Controller
                     
                     'nama' => $request['nama'],
                     'kriteria_id' => $value,
-                    'sub_kriteria_id' => $request['sub_krit'][$key]
+                    'sub_kriteria_id' => $sub_krits[$key]
                 ];
              
-                if($kodes != $request['sub_krit'][$key]){
+                if($kodes != $sub_krits[$key]){
                     if($kodes == ""){
-                        $kodes = $request['sub_krit'][$key];
+                        $kodes = $sub_krits[$key];
                     }else{
-                        $kodes = $kodes.'_'.$request['sub_krit'][$key];
+                        $kodes = $kodes.'_'.$sub_krits[$key];
                     }
                     
                 }
