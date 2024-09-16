@@ -83,7 +83,7 @@
 
                                         <td class="text-center ">{{ $value['nama'] }}</td>
                                         @foreach ($value['sub_krits'] as $values)
-                                            <td class="text-center">{{ $values['prioritas'] * $values['krits']['prioritas'] }}</td>
+                                            <td class="text-center">{{ number_format($values['prioritas'] * $values['krits']['prioritas'],4) }}</td>
                                         @endforeach
                                         <td class="text-center">{{ number_format($value['total_rangking'], 4) }}</td>
                                         <td class="text-center">
