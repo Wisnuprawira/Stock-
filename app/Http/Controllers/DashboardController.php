@@ -49,7 +49,7 @@ class DashboardController extends Controller
   
         
         
-        // return $sup;
+        // return $loops;
         $krit = Kriteria::orderby('kode','ASC')->get();
         $krit->map(function($x){
             $x['sub'] = SubKriteria::where('kriteria_id',$x->id)->orderby('kode','ASC')->get();

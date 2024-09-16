@@ -23,7 +23,7 @@
                             <input type="hidden" name="krit[]" id="" value="{{ $value['id'] }}" >
                             <div class="form-group">
                                 <label for="kode">Nilai {{ $value['nama'] }} (%)</label>
-                                <input type="number" class="form-control" min="0" max="100" name="sub_krit[]">
+                                <input type="text" class="form-control"  name="sub_krit[]">
                                 {{-- <select class="form-control" name="sub_krit[]" id="">
                                     @foreach ($value['sub'] as $items)
                                         <option value="{{ $items['id'] }}">{{ $items['nama'] }}</option>

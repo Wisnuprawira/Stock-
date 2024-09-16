@@ -11,7 +11,7 @@
                         <div class="form-group">
                             <label for="kode">Kode Kriteria</label>
                             <select name="kriteria" class="form-control" id="kode"
-                                placeholder="Enter your kode kriteria">
+                                placeholder="Enter your kode kriteria" required>
                                 <option value="" selected disabled>---- Pilih Kriteria ----</option>
                                 @foreach ($data['data'] as $value)
                                     <option value="{{ $value['id'] }}">{{ $value['kode'] }} - {{ $value['nama'] }}</option>
@@ -21,16 +21,16 @@
                         <div class="form-group">
                             <label for="kode">Kode Sub Kriteria</label>
                             <input name="kode" type="text" class="form-control" id="kode"
-                                placeholder="Enter your kode kriteria">
+                                placeholder="Enter your kode kriteria" required>
                         </div>
                         <div class="form-group">
                             <label for="nama">Nama Sub Kriteria</label>
                             <input name="nama" type="text" class="form-control" id="nama"
-                                placeholder="Enter your nama kriteria">
+                                placeholder="Enter your nama kriteria" required>
                         </div>
                         <div class="form-group">
                             <label for="operator">Operator</label>
-                            <select name="operator" id="operator" class="form-control">
+                            <select name="operator" id="operator" class="form-control" >
                                 <option value="" selected>---- Pilih Operator ----</option>
                                 <option value=">">Lebih besar (>)</option>
                                 <option value="<">Lebih kecil (<)</option>
@@ -41,21 +41,21 @@
                         </div>
                         <div class="form-group" id="fixed" hidden>
                             <label for="nama">Nilai (%)</label>
-                            <input name="nilai" type="number" min="0" max="100" class="form-control"
+                            <input name="nilai" type="text"  class="form-control"
                                 id="nilai" placeholder="Enter your nilai kriteria">
                         </div>
 
                         <div class="form-group" id="antara" hidden>
                             <label for="nama">Nilai (%)</label>
                             <div class="row">
-                                <div class="col-xs-5 "><input name="nilai_1" type="number" min="0" max="100"
+                                <div class="col-xs-5 "><input name="nilai_1" type="text" max="100"
                                         class="form-control" id="nilai_1" placeholder="Enter your nilai kriteria"></div>
                                 <div class="col-xs-2 ">
                                     <div class="text-center align-middle form-control" style="border:none">
                                         <=>
                                     </div>
                                 </div>
-                                <div class="col-xs-5"><input name="nilai_2" type="number" min="0" max="100"
+                                <div class="col-xs-5"><input name="nilai_2" type="text" max="100"
                                         class="form-control" id="nilai_2" placeholder="Enter your nilai kriteria"></div>
                             </div>
                         </div>
