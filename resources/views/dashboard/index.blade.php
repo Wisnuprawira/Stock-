@@ -52,6 +52,9 @@
         </div>
 
         <div class="row small-spacing">
+            @php
+                $numbering = 0;
+            @endphp
             @foreach ($data['loops'] as $key => $items)
                 <div class="col-lg-12 col-xs-12">
                     <div class="box-content">
@@ -83,7 +86,9 @@
 
                                         <td class="text-center ">{{ $value['nama'] }}</td>
                                         @foreach ($value['sub_krits'] as $values)
-                                            <td class="text-center">{{ number_format($values['prioritas'] * $values['krits']['prioritas'],4) }}</td>
+                                            <td class="text-center">
+                                                {{ number_format($values['prioritas'] * $values['krits']['prioritas'], 4) }}
+                                            </td>
                                         @endforeach
                                         <td class="text-center">{{ number_format($value['total_rangking'], 4) }}</td>
                                         <td class="text-center">
@@ -92,13 +97,14 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <hr>
+                        <canvas id="bar-chartjs-chart-{{ $numbering }}" class="chartjs-chart" height="50"></canvas>
                     </div>
                     <!-- /.box-content -->
                 </div>
-                {{-- <div class="col-12">
-
-                    <canvas id="bar-chartjs-chart-{{ $key }}" class="chartjs-chart" height="50"></canvas>
-                </div> --}}
+                @php
+                    $numbering++;
+                @endphp
             @endforeach
             <div class="col-lg-3 col-xs-12">
                 <div class="box-content">
@@ -152,56 +158,87 @@
 @section('js')
     <script src="{{ asset('assets/plugin/chart/chartjs/Chart.bundle.min.js') }}"></script>
     {{-- <script src="{{ asset('assets/scripts/chart.chartjs.init.min.js') }}"></script> --}}
+    <script>
+        var number = 0;
+        var dataTable = {!! json_encode($data['loops'] ?? []) !!};
+        // Fungsi untuk menghasilkan warna pastel acak
 
+        dataTable.forEach((element, index) => {
+            function getRandomPastelColor() {
+                const r = Math.floor(Math.random() * 128 + 100); // Nilai RGB antara 128 dan 100
+                const g = Math.floor(Math.random() * 128 + 100);
+                const b = Math.floor(Math.random() * 128 + 100);
 
-    {{-- <script>
-        // Mengambil elemen canvas dengan ID dinamis
-        var ctx = document.getElementById('bar-chartjs-chart-1').getContext('2d');
+                const backgroundColor =
+                `rgba(${r}, ${g}, ${b})`; // Warna dengan transparansi 0.5 untuk background
+                const borderColor = `rgba(${r}, ${g}, ${b}, 1)`; // Warna solid untuk border
 
-        // Data kustom untuk bar chart dengan beberapa dataset
-        var data = {
-            labels: ['TEST', 'TEST2', 'TEST3', 'sd', 'asd'], // Label pada sumbu X
-            datasets: [{
-                    label: 'DER', // Nama dataset pertama
-                    data: [10, 15, 20, 25, 30], // Data untuk dataset pertama
-                    backgroundColor: 'rgba(255, 99, 132, 0.5)', // Warna bar dataset pertama
-                    borderColor: 'rgba(255, 99, 132, 1)', // Warna garis bar dataset pertama
+                return {
+                    backgroundColor,
+                    borderColor
+                };
+            }
+            var dataSetting = [];
+            var fileNames = [];
+            var labelSetting = [];
+            var dataSubkrit = [];
+            var ctx = document.getElementById('bar-chartjs-chart-' + index).getContext('2d');
+            element.data.forEach(dataItem => {
+                var filName = dataItem.nama;
+                var dataSe = [];
+                fileNames.push(filName);
+
+                dataItem.sub_krits.forEach(sub => {
+                    labelSetting.push(sub.krits.nama);
+                    dataSe.push((sub.prioritas * sub.krits.prioritas).toFixed(4))
+                });
+                var color = getRandomPastelColor();
+                dataSetting.push({
+                    label: dataItem.nama,
+                    data: dataSe,
+                    backgroundColor: color.backgroundColor, // Warna bar dataset pertama
+                    borderColor: color.borderColor, // Warna garis bar dataset pertama
                     borderWidth: 1
-                },
-                {
-                    label: 'PER', // Nama dataset kedua
-                    data: [5, 10, 15, 20, 25], // Data untuk dataset kedua
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)', // Warna bar dataset kedua
-                    borderColor: 'rgba(54, 162, 235, 1)', // Warna garis bar dataset kedua
-                    borderWidth: 1
-                },
-                {
-                    label: 'ROA', // Nama dataset ketiga
-                    data: [8, 12, 18, 22, 28], // Data untuk dataset ketiga
-                    backgroundColor: 'rgba(75, 192, 192, 0.5)', // Warna bar dataset ketiga
-                    borderColor: 'rgba(75, 192, 192, 1)', // Warna garis bar dataset ketiga
-                    borderWidth: 1
+                })
+
+            });
+            const seenKode = {};
+            const uniqueLabelSetting = labelSetting.filter(lab => {
+                const kode = lab;
+
+                if (!seenKode[kode]) {
+                    seenKode[kode] = true;
+                    return true;
                 }
-            ]
-        };
 
-        // Opsi kustom untuk chart
-        var options = {
-            scales: {
-                y: {
-                    beginAtZero: true, // Mulai dari nol pada sumbu Y
-                    ticks: {
-                        stepSize: 5 // Jarak antar nilai pada sumbu Y
+                // Jika kode sudah ada, jangan masukkan item
+                return false;
+            });
+            // console.log(uniqueLabelSetting);
+            console.log(dataSetting);
+            var data = {
+                labels: uniqueLabelSetting, // Label pada sumbu X
+                datasets: dataSetting
+            };
+
+            // Opsi kustom untuk chart
+            var options = {
+                scales: {
+                    y: {
+                        beginAtZero: true, // Mulai dari nol pada sumbu Y
+                        ticks: {
+                            stepSize: 2 // Jarak antar nilai pada sumbu Y
+                        }
                     }
                 }
-            }
-        };
+            };
 
-        // Membuat bar chart menggunakan data dan opsi kustom
-        var barChart = new Chart(ctx, {
-            type: 'bar', // Jenis chart
-            data: data,
-            options: options
+            // Membuat bar chart menggunakan data dan opsi kustom
+            var barChart = new Chart(ctx, {
+                type: 'bar', // Jenis chart
+                data: data,
+                options: options
+            });
         });
-    </script> --}}
+    </script>
 @endsection
